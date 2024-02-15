@@ -12,7 +12,7 @@ class MyFirstCrudApplicationTests {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
-	@Test
+	//@Test
 	void chamaSequenciaCrud(){
 		Usuario usuarioGravadoNoBanco = gravarDadosUsuario();
 		System.out.println("Valor do usuário gravado no banco: " + usuarioGravadoNoBanco);

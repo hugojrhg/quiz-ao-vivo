@@ -6,9 +6,7 @@ import com.robson.company.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UsuarioMapper {
@@ -27,14 +25,14 @@ public class UsuarioMapper {
         return modelMapper.map(dto, Usuario.class);
     }
 
-    public ArrayList<UsuarioDTO> toListDTO(List<Usuario> modelList) {
+    public List<UsuarioDTO> toListDTO(List<Usuario> modelList) {
         return modelList.stream()
-                .map(this::toDTO).collect(Collectors.toCollection(ArrayList::new));
+                .map(this::toDTO).toList();
     }
 
-    public ArrayList<Usuario> toList(List<UsuarioDTO> dtosList) {
+    public List<Usuario> toList(List<UsuarioDTO> dtosList) {
         return dtosList.stream()
-                .map(this::toEntity).collect(Collectors.toCollection(ArrayList::new));
+                .map(this::toEntity).toList();
     }
 
 }

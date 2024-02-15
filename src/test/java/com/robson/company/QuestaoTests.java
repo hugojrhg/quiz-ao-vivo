@@ -1,49 +1,94 @@
 package com.robson.company;
 
-import com.robson.company.model.Usuario;
-import com.robson.company.repository.UsuarioRepository;
+import com.robson.company.builder.QuestaoMapper;
+import com.robson.company.dto.AlternativaDTO;
+import com.robson.company.dto.QuestaoDTO;
+import com.robson.company.repository.AlternativaRepository;
+import com.robson.company.repository.QuestaoRepository;
+import com.robson.company.service.AlternativaService;
+import com.robson.company.service.QuestaoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
-class MyFirstCrudApplicationTests {
+class QuestaoTests {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private QuestaoService questaoService;
+
+	@Autowired
+	private AlternativaService alternativaService;
+
+	@Autowired
+	private QuestaoRepository questaoRepository;
+
+	@Autowired
+	private AlternativaRepository alternativaRepository;
+
+	@Autowired
+	private QuestaoMapper questaoMapper;
 
 	@Test
-	void chamaSequenciaCrud(){
-		Usuario usuarioGravadoNoBanco = gravarDadosUsuario();
-		System.out.println("Valor do usuário gravado no banco: " + usuarioGravadoNoBanco);
+	void chamaSequenciaCrud() throws Exception {
+		montarAlternativaDaQuestao();
+	}
+	private void montarAlternativaDaQuestao() throws Exception {
+		//Criando uma alternativa para colocar na questão
+		System.out.println("Criando alternativa...");
+		AlternativaDTO alternativaDTO = new AlternativaDTO(1L,"Valdomiro", true);
 
-		Usuario usuarioAtualizado = atualizarDadosUsuario(usuarioGravadoNoBanco);
-		System.out.println("Valor do usuário atualizado: " + usuarioAtualizado);
+		//Criando uma questão e passando a alternativa criada anteriormente nela
+		System.out.println("Criando questão usando a alternativa...");
+		QuestaoDTO questaoDTO = new QuestaoDTO(1L, "Turma", "Quem é o Kratos da turma?", "Valdomiro", List.of(alternativaDTO));
 
-		apagaUsuario(usuarioAtualizado);
-		System.out.println("Apagou o usuário!");
+		//Aqui estamos salvando a questão, como usamos o CascadeType.ALL o esperado é que mesmo sem salvar a alternativa diretamente,
+		//no momento que você salva uma questão que contém aquela alternativa ela será salva por cascata no banco.
+		System.out.println("Salvando questão...");
+		questaoService.salvarQuestao(questaoDTO);
+
+		//Verificando se a nossa alternativa foi salva no banco
+		System.out.println("Todas as alternativas existentes: " + alternativaService.getAllAlternativas());
+
+		//Criando uma nova versão da nossa alternativa para testar a atualização
+		System.out.println("Criando nova alternativa para atualizar...");
+		AlternativaDTO alternativaDTO2 = new AlternativaDTO(null, "Samuca", false);
+
+		//Atualizando nossa alternativa
+		System.out.println("Atualizando alternativa...");
+		alternativaService.atualizaAlternativa(alternativaDTO2, 1L);
+
+		//Novamente a operação foi realizada em cascata,
+		//ao atualizar a alternativa, automaticamente é atualizada a referência dela dentro da questão
+		System.out.println("Alternativas atualizadas: " + questaoService.buscarPorId(1L).getAlternativas());
+
+		//Agora vamos apagar a questão para testar o orphanRemoval,
+		//que tem como objetivo remover um filho(alternativa) se o pai(questão) for removido
+		System.out.println("Todas as questões antes de deletar a questão: " + questaoRepository.findAll());
+		System.out.println("Todas as Alternativas antes de deletar a questão: " + alternativaRepository.findAll());
+
+		System.out.println("Apagando questão...");
+		questaoService.apagarQuestao(1L);
+
+		System.out.println("Todas as questões depois de deletar a questão: " + questaoRepository.findAll());
+		System.out.println("Todas as Alternativas depois de deletar a questão: " + alternativaRepository.findAll());
 	}
 
-	private Usuario gravarDadosUsuario() {
-		Usuario usuario = new Usuario();
-		usuario.setAge(38);
-		usuario.setName("Samuel");
-		usuario.setFullName("Samuel Ferreira Duarte");
-		System.out.println("A - Meu usuario antes de gravar: " + usuario);
+	/*private void crudQuestao(){
+		Questao questaoQueEuQueroSalvar = new Questao("tema", "pergunta", "resposta");
+		questaoService.salvarQuestao(questaoQueEuQueroSalvar);
+		System.out.println("Retorno salvado: " + questaoQueEuQueroSalvar);
 
-		Usuario usuarioGravadoNoBanco = usuarioRepository.save(usuario);
+		questaoQueEuQueroSalvar.setPergunta("Sera que funciona?");
+		questaoService.salvarQuestao(questaoQueEuQueroSalvar);
+		System.out.println("Mudou o nome do tema? " + questaoQueEuQueroSalvar);
 
-		System.out.println("B - Meu usuario depois de gravar." + usuarioGravadoNoBanco);
-		return usuarioGravadoNoBanco;
-	}
+		questaoService.apagarQuestao(questaoQueEuQueroSalvar);
+		System.out.println("Apagou!");
+	}*/
 
-	private Usuario atualizarDadosUsuario(Usuario usuarioGravadoNoBanco) {
-		usuarioGravadoNoBanco.setName("Nao é samuca");
-		return usuarioRepository.save(usuarioGravadoNoBanco);
-	}
 
-	private void apagaUsuario(Usuario usuarioParaDeletar) {
-		usuarioRepository.delete(usuarioParaDeletar);
-	}
 
 }
