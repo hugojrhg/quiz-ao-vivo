@@ -4,7 +4,7 @@
 #### Primeiro rode o comando a baixo para instalar todas dependencias necessarias
 ``` bash
 
-nvm clean install
+mvn clean install -DskipTests
 
 ```
 #### Segundo rodar o comando abaixo pra criar todo esquema do banco
