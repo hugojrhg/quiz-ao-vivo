@@ -1,18 +1,20 @@
 package com.robson.company.dto;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
-public class AlternativaDTO {
+public class UserDTO {
 
     private Long id;
-    private String alternativa;
-    private boolean ehCorreta;
+    private String name;
+    private String fullName;
+    private Integer age;
 
 }

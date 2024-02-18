@@ -1,8 +1,7 @@
 package com.robson.company;
 
-import com.robson.company.model.Usuario;
-import com.robson.company.repository.UsuarioRepository;
-import org.junit.jupiter.api.Test;
+import com.robson.company.model.User;
+import com.robson.company.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,40 +9,40 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MyFirstCrudApplicationTests {
 
 	@Autowired
-	private UsuarioRepository usuarioRepository;
+	private UserRepository userRepository;
 
 	//@Test
 	void chamaSequenciaCrud(){
-		Usuario usuarioGravadoNoBanco = gravarDadosUsuario();
-		System.out.println("Valor do usuário gravado no banco: " + usuarioGravadoNoBanco);
+		User userGravadoNoBanco = gravarDadosUsuario();
+		System.out.println("Valor do usuário gravado no banco: " + userGravadoNoBanco);
 
-		Usuario usuarioAtualizado = atualizarDadosUsuario(usuarioGravadoNoBanco);
-		System.out.println("Valor do usuário atualizado: " + usuarioAtualizado);
+		User userAtualizado = atualizarDadosUsuario(userGravadoNoBanco);
+		System.out.println("Valor do usuário atualizado: " + userAtualizado);
 
-		apagaUsuario(usuarioAtualizado);
+		apagaUsuario(userAtualizado);
 		System.out.println("Apagou o usuário!");
 	}
 
-	private Usuario gravarDadosUsuario() {
-		Usuario usuario = new Usuario();
-		usuario.setAge(38);
-		usuario.setName("Samuel");
-		usuario.setFullName("Samuel Ferreira Duarte");
-		System.out.println("A - Meu usuario antes de gravar: " + usuario);
+	private User gravarDadosUsuario() {
+		User user = new User();
+		user.setAge(38);
+		user.setName("Samuel");
+		user.setFullName("Samuel Ferreira Duarte");
+		System.out.println("A - Meu user antes de gravar: " + user);
 
-		Usuario usuarioGravadoNoBanco = usuarioRepository.save(usuario);
+		User userGravadoNoBanco = userRepository.save(user);
 
-		System.out.println("B - Meu usuario depois de gravar." + usuarioGravadoNoBanco);
-		return usuarioGravadoNoBanco;
+		System.out.println("B - Meu user depois de gravar." + userGravadoNoBanco);
+		return userGravadoNoBanco;
 	}
 
-	private Usuario atualizarDadosUsuario(Usuario usuarioGravadoNoBanco) {
-		usuarioGravadoNoBanco.setName("Nao é samuca");
-		return usuarioRepository.save(usuarioGravadoNoBanco);
+	private User atualizarDadosUsuario(User userGravadoNoBanco) {
+		userGravadoNoBanco.setName("Nao é samuca");
+		return userRepository.save(userGravadoNoBanco);
 	}
 
-	private void apagaUsuario(Usuario usuarioParaDeletar) {
-		usuarioRepository.delete(usuarioParaDeletar);
+	private void apagaUsuario(User userParaDeletar) {
+		userRepository.delete(userParaDeletar);
 	}
 
 }

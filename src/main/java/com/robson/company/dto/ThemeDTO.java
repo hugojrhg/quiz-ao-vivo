@@ -1,6 +1,6 @@
 package com.robson.company.dto;
 
-import com.robson.company.model.Questao;
+import com.robson.company.model.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class TemaDTO {
-    private String tema;
+public class ThemeDTO {
 
+    private String theme;
     private Long id;
+    private List<Question> questionList = new ArrayList<>();
 
-    private List<Questao> questaoList = new ArrayList<>();
 }

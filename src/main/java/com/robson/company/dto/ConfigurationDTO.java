@@ -9,11 +9,11 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ConfiguracaoDTO {
+public class ConfigurationDTO {
 
     private Long id;
-    private Long moedaInicial;
-    private Long pontuacaoPorAcerto;
+    private Long initialCoins;
+    private Long scorePerHit;
     private String level;
 
 }

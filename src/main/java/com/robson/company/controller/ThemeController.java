@@ -1,15 +1,15 @@
 package com.robson.company.controller;
 
-import com.robson.company.service.TemaService;
+import com.robson.company.service.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/tema")
-public class TemaController {
+@RequestMapping("/theme")
+public class ThemeController {
     @Autowired
-    TemaService temaService;
+    ThemeService themeService;
 
     //@GetMapping
     //public

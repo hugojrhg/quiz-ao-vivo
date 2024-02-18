@@ -1,7 +1,7 @@
 package com.robson.company.builder;
 
-import com.robson.company.dto.AlternativaDTO;
-import com.robson.company.model.Alternativa;
+import com.robson.company.dto.ConfigurationDTO;
+import com.robson.company.model.Configuration;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,28 +10,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class AlternativaMapper {
+public class ConfigurationMapper {
 
     private final ModelMapper modelMapper;
 
     @Autowired
-    public AlternativaMapper(ModelMapper modelMapper){
+    public ConfigurationMapper(ModelMapper modelMapper){
         this.modelMapper = modelMapper;
     }
 
-    public AlternativaDTO toDTO(Alternativa model){
-        return modelMapper.map(model, AlternativaDTO.class);
+    public ConfigurationDTO toDTO(Configuration model){
+        return modelMapper.map(model, ConfigurationDTO.class);
     }
-    public Alternativa toEntity(AlternativaDTO dto){
-        return modelMapper.map(dto, Alternativa.class);
+    public Configuration toEntity(ConfigurationDTO dto){
+        return modelMapper.map(dto, Configuration.class);
     }
 
-    public List<AlternativaDTO> toListDTO(List<Alternativa> modelList){
+    public List<ConfigurationDTO> toListDTO(List<Configuration> modelList){
         return modelList.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
-    public List<Alternativa> toList(List<AlternativaDTO> modelList){
+    public List<Configuration> toList(List<ConfigurationDTO> modelList){
         return modelList.stream()
                 .map(this::toEntity)
                 .collect(Collectors.toList());

@@ -11,12 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class QuestaoDTO {
+public class QuestionDTO {
 
     private Long id;
-    private String tema;
-    private String pergunta;
-    private String resposta;
-    private List<AlternativaDTO> alternativas;
+    private String theme;
+    private String question;
+    private List<AlternativeDTO> alternativeList;
 
 }
